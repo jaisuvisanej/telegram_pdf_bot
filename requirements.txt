@@ -14,6 +14,7 @@ aiosqlite>=0.20.0
 
 # PDF & Text Processing
 pymupdf>=1.23.26
+reportlab>=4.1.0
 
 # AI & Embeddings (RAG)
 google-genai>=0.1.1
