@@ -11,13 +11,19 @@ Base = declarative_base()
 
 # Configure engine arguments based on DB dialect (SQLite vs PostgreSQL)
 engine_kwargs = {}
-if settings.DATABASE_URL.startswith("sqlite"):
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+elif db_url.startswith("postgresql://"):
+    db_url = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+if db_url.startswith("sqlite"):
     # SQLite requires checking same thread flags to allow multithreading in dev
     engine_kwargs["connect_args"] = {"check_same_thread": False}
 
 # Create asynchronous engine
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    db_url,
     echo=False,  # Set to True for verbose SQL query logging
     **engine_kwargs
 )

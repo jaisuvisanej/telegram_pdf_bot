@@ -17,8 +17,9 @@ class GeminiService(BaseLLMService):
         if not settings.GEMINI_API_KEY:
             logger.warning("GEMINI_API_KEY environment variable is not set. Gemini API calls will fail.")
         
-        # Initialize the official GenAI Client
-        self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        # Initialize the official GenAI Client (use a dummy key if empty to avoid crashing on boot)
+        api_key = settings.GEMINI_API_KEY or "DUMMY_KEY_FOR_BOOT"
+        self.client = genai.Client(api_key=api_key)
         self._active_key = 'main'
         self.model_name = settings.GEMINI_MODEL
         self.embedding_model_name = settings.EMBEDDING_MODEL
