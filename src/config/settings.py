@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # AI Settings
     GEMINI_API_KEY: str = ""
     GEMINI_API_KEY_FALLBACK: str = ""
-    GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+    GEMINI_MODEL: str = "gemini-3.5-flash"
     EMBEDDING_MODEL: str = "text-embedding-004"
     
     # File Processing & Storage Settings
