@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # FastAPI Backend Settings
     BACKEND_HOST: str = "0.0.0.0"
     BACKEND_PORT: int = 8000
-    API_URL: str = "http://localhost:8000"
+    API_URL: str = "http://backend:8000"
     
     # AI Settings
     GEMINI_API_KEY: str = ""
