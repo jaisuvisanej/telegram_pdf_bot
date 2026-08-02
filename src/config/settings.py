@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     
     # File Processing & Storage Settings
     UPLOAD_DIR: str = "uploads"
-    MAX_FILE_SIZE_MB: int = 10
+    MAX_FILE_SIZE_MB: int = 100
     
     # Database Settings
     DATABASE_URL: str = "sqlite+aiosqlite:///./testyourself.db"
