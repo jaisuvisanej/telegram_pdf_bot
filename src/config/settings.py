@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     
     # Telegram Bot Settings
     TELEGRAM_BOT_TOKEN: str = ""
+    TELEGRAM_API_URL: Optional[str] = None
+    TELEGRAM_FILE_URL: Optional[str] = None
     
     # FastAPI Backend Settings
     BACKEND_HOST: str = "0.0.0.0"

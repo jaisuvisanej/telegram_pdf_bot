@@ -25,7 +25,14 @@ def run_bot() -> None:
     logger.info("Initializing Telegram Bot...")
     
     # Create Telegram Application with concurrent update task handling
-    application = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).concurrent_updates(True).build()
+    builder = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).concurrent_updates(True)
+    if settings.TELEGRAM_API_URL:
+        builder.base_url(settings.TELEGRAM_API_URL)
+        logger.info(f"Using custom Telegram API URL: {settings.TELEGRAM_API_URL}")
+    if settings.TELEGRAM_FILE_URL:
+        builder.base_file_url(settings.TELEGRAM_FILE_URL)
+        logger.info(f"Using custom Telegram File API URL: {settings.TELEGRAM_FILE_URL}")
+    application = builder.build()
     
     # Register global error handler
     application.add_error_handler(error_handler)
