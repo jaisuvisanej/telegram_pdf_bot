@@ -96,6 +96,29 @@ class PDFExtractor:
                 raw_text = page.get_text("text")
                 cleaned_text = self._clean_text(raw_text)
                 
+                # OCR fallback for scanned/photographed PDFs with no native text
+                if len(cleaned_text.strip()) < 30:
+                    logger.debug(f"Page {page_idx + 1} has very little digital text ({len(cleaned_text)} chars). Running OCR...")
+                    try:
+                        import pytesseract
+                        import io
+                        from PIL import Image
+                        
+                        # Render page to a high-quality PNG pixmap (150 DPI)
+                        pix = page.get_pixmap(dpi=150)
+                        img_data = pix.tobytes("png")
+                        img = Image.open(io.BytesIO(img_data))
+                        
+                        # Execute optical character recognition
+                        ocr_text = pytesseract.image_to_string(img)
+                        cleaned_ocr = self._clean_text(ocr_text)
+                        
+                        if len(cleaned_ocr.strip()) > len(cleaned_text.strip()):
+                            cleaned_text = cleaned_ocr
+                            logger.info(f"Page {page_idx + 1} text extracted via OCR ({len(cleaned_text)} chars)")
+                    except Exception as ocr_err:
+                        logger.warning(f"OCR failed on page {page_idx + 1}: {ocr_err}")
+                
                 # Track statistics
                 total_chars += len(cleaned_text)
                 
